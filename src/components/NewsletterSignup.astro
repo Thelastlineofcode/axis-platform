@@ -1,0 +1,42 @@
+---
+/**
+ * NewsletterSignup.astro
+ * Beehiiv newsletter embed.
+ * Using hosted embed form for launch — no API key required.
+ * TODO: Replace embed src with actual Beehiiv publication embed URL.
+ */
+---
+
+<div class="w-full max-w-md mx-auto">
+  <!-- Beehiiv hosted embed — replace src with your publication embed URL from Beehiiv dashboard -->
+  <!-- Format: https://embeds.beehiiv.com/YOUR_PUBLICATION_ID -->
+  <div class="beehiiv-embed-placeholder border border-axis-gold/30 rounded-lg p-6 text-center">
+    <p class="text-axis-gold font-mono text-xs tracking-widest uppercase mb-3">Join the Signal Chain</p>
+    <p class="text-gray-400 text-sm mb-4">Weekly Mundane Mystic dispatches. Free forever.</p>
+
+    <!-- TODO: Replace this form with Beehiiv embed once publication is created -->
+    <!-- <iframe src="https://embeds.beehiiv.com/YOUR_PUBLICATION_ID" ...></iframe> -->
+
+    <form
+      action="/subscribed"
+      method="GET"
+      class="flex flex-col sm:flex-row gap-3"
+      aria-label="Newsletter signup"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="your@email.com"
+        required
+        class="flex-1 bg-axis-black border border-axis-indigo-mid/60 rounded px-4 py-2 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-axis-gold transition-colors"
+      />
+      <button
+        type="submit"
+        class="bg-axis-gold text-axis-black font-mono text-sm font-bold px-6 py-2 rounded hover:bg-axis-gold-light transition-colors whitespace-nowrap"
+      >
+        Subscribe
+      </button>
+    </form>
+    <p class="text-gray-700 text-xs mt-3">No spam. Unsubscribe anytime. Your data stays yours.</p>
+  </div>
+</div>

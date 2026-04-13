@@ -1,0 +1,46 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  publishedAt: Date;
+  planet?: string;
+  nakshatra?: string;
+  pillar: 'MUNDANE_MYSTIC' | 'THE_AXIS' | 'TIMING_REPORT';
+  isPaid?: boolean;
+}
+
+const { title, description, publishedAt, planet, nakshatra, pillar, isPaid } = Astro.props;
+
+const pillarLabel = {
+  MUNDANE_MYSTIC: 'Mundane Mystic',
+  THE_AXIS: 'The Axis',
+  TIMING_REPORT: 'Timing Report',
+}[pillar];
+---
+
+<BaseLayout title={`${title} — AXIS`} description={description}>
+  <article class="max-w-3xl mx-auto px-6 py-20">
+    <header class="mb-12">
+      <div class="flex gap-3 mb-4 items-center">
+        <span class="font-mono text-xs text-axis-gold tracking-widest uppercase">{pillarLabel}</span>
+        {isPaid && (
+          <span class="font-mono text-xs bg-axis-gold/20 text-axis-gold px-2 py-0.5 rounded">Members</span>
+        )}
+      </div>
+      <h1 class="font-serif text-4xl md:text-5xl text-white leading-tight mb-4">{title}</h1>
+      <div class="flex gap-4 text-sm text-gray-500 font-mono">
+        <time datetime={publishedAt.toISOString()}>
+          {publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        {planet && <span>• {planet}</span>}
+        {nakshatra && <span>• {nakshatra}</span>}
+      </div>
+    </header>
+
+    <div class="prose prose-invert prose-gold max-w-none">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

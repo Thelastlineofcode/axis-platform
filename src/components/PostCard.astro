@@ -1,0 +1,46 @@
+---
+interface Props {
+  post: {
+    title: string;
+    slug: { current: string } | string;
+    publishedAt: string;
+    description?: string;
+    planet?: string;
+    nakshatra?: string;
+    pillar: string;
+    isPaid?: boolean;
+  };
+}
+
+const { post } = Astro.props;
+const slug = typeof post.slug === 'string' ? post.slug : post.slug.current;
+const pillarLabel: Record<string, string> = {
+  MUNDANE_MYSTIC: 'Mundane Mystic',
+  THE_AXIS: 'The Axis',
+  TIMING_REPORT: 'Timing Report',
+};
+---
+
+<article class="border border-axis-indigo-mid/40 rounded-lg p-6 hover:border-axis-gold/40 transition-colors">
+  <div class="flex gap-3 mb-3 items-center">
+    <span class="font-mono text-xs text-axis-gold tracking-widest uppercase">
+      {pillarLabel[post.pillar] ?? post.pillar}
+    </span>
+    {post.isPaid && (
+      <span class="font-mono text-xs bg-axis-gold/20 text-axis-gold px-2 py-0.5 rounded">Members</span>
+    )}
+  </div>
+  <h2 class="font-serif text-xl text-white mb-2">
+    <a href={`/blog/${slug}`} class="hover:text-axis-gold transition-colors">{post.title}</a>
+  </h2>
+  {post.description && (
+    <p class="text-gray-500 text-sm mb-4 leading-relaxed">{post.description}</p>
+  )}
+  <div class="flex gap-3 text-xs text-gray-600 font-mono">
+    <time datetime={post.publishedAt}>
+      {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+    </time>
+    {post.planet && <span>· {post.planet}</span>}
+    {post.nakshatra && <span>· {post.nakshatra}</span>}
+  </div>
+</article>

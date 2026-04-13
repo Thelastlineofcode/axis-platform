@@ -1,0 +1,40 @@
+---
+/**
+ * TransitWidget.astro
+ * Displays today's sidereal planetary positions (Lahiri ayanamsa).
+ *
+ * TODO: Wire to Levite astro-calc-api endpoint once AXIS-Levite bridge is spec'd.
+ * Levite owns all ephemeris computation — no third-party astrology apps.
+ * Endpoint target: GET /api/transits/today?ayanamsa=lahiri
+ *
+ * Placeholder data below is for scaffold/design purposes only.
+ */
+
+const placeholderTransits = [
+  { planet: 'Sun ☉', sign: 'Pisces', degree: "29°42'", nakshatra: 'Revati', subLord: 'Mercury' },
+  { planet: 'Moon ☽', sign: 'Scorpio', degree: "14°18'", nakshatra: 'Anuradha', subLord: 'Saturn' },
+  { planet: 'Mars ♂', sign: 'Capricorn', degree: "8°55'", nakshatra: 'Uttara Ashadha', subLord: 'Sun' },
+  { planet: 'Mercury ☿', sign: 'Aries', degree: "3°12'", nakshatra: 'Ashwini', subLord: 'Venus' },
+  { planet: 'Jupiter ♃', sign: 'Taurus', degree: "21°34'", nakshatra: 'Rohini', subLord: 'Moon' },
+  { planet: 'Venus ♀', sign: 'Pisces', degree: "17°08'", nakshatra: 'Revati', subLord: 'Jupiter' },
+  { planet: 'Saturn ♄', sign: 'Aquarius', degree: "16°22'", nakshatra: 'Shatabhisha', subLord: 'Rahu' },
+  { planet: 'Rahu ☊', sign: 'Pisces', degree: "11°45'", nakshatra: 'Uttara Bhadrapada', subLord: 'Jupiter' },
+  { planet: 'Ketu ☋', sign: 'Virgo', degree: "11°45'", nakshatra: 'Hasta', subLord: 'Moon' },
+];
+---
+
+<div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+  {placeholderTransits.map((t) => (
+    <div class="bg-axis-black/60 border border-axis-indigo-mid/40 rounded p-3">
+      <div class="flex justify-between items-start mb-1">
+        <span class="text-axis-gold font-mono text-xs">{t.planet}</span>
+        <span class="text-gray-600 font-mono text-xs">{t.degree}</span>
+      </div>
+      <p class="text-white text-sm font-serif">{t.sign}</p>
+      <p class="text-gray-500 text-xs mt-1">{t.nakshatra} · SL: {t.subLord}</p>
+    </div>
+  ))}
+</div>
+<p class="text-gray-700 font-mono text-xs mt-3 text-right">
+  Lahiri Ayanamsa · Placeholder — Levite API wiring pending
+</p>

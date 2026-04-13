@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TransitWidget from '../components/TransitWidget.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import PostCard from '../components/PostCard.astro';
+
+// TODO: Replace with live Sanity GROQ query once projectId is configured
+// import { useSanityClient } from '@sanity/astro';
+// const client = useSanityClient();
+// const posts = await client.fetch(`*[_type == "post"] | order(publishedAt desc)[0..5]`);
+
+const posts: any[] = []; // placeholder until Sanity is wired
+---
+
+<BaseLayout
+  title="AXIS — Sacred Intelligence Platform"
+  description="Sidereal astrology × KP nakshatras × African ancestral cosmology × live OSINT. The sky doesn't lie."
+>
+  <!-- Hero -->
+  <section class="min-h-screen bg-axis-black flex flex-col justify-center items-center text-center px-6 py-24">
+    <p class="text-axis-gold font-mono text-sm tracking-widest uppercase mb-4">Sacred Intelligence Platform</p>
+    <h1 class="text-5xl md:text-7xl font-serif text-white mb-6 leading-tight">
+      The sky doesn&apos;t lie.<br />
+      <span class="text-axis-gold">Neither do we.</span>
+    </h1>
+    <p class="text-gray-400 max-w-2xl text-lg mb-10">
+      Sidereal precision · KP nakshatras · African ancestral cosmology · live geopolitical cross-reference.
+      Real-sky astrology for people who need to know what&apos;s actually happening.
+    </p>
+    <NewsletterSignup />
+  </section>
+
+  <!-- Transit Widget -->
+  <section class="bg-axis-indigo py-12 px-6">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-axis-gold font-mono text-xs tracking-widest uppercase mb-4">Today&apos;s Sky — Sidereal (Lahiri)</h2>
+      <TransitWidget />
+    </div>
+  </section>
+
+  <!-- Latest Posts -->
+  <section class="bg-axis-black py-20 px-6">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-white font-serif text-3xl mb-2">Mundane Mystic</h2>
+      <p class="text-gray-500 mb-10">Real planetary positions. Real world events. Every Monday.</p>
+
+      {posts.length === 0 ? (
+        <div class="border border-axis-indigo-mid rounded p-8 text-center">
+          <p class="text-gray-600 font-mono text-sm">First dispatch incoming. Subscribe to be notified.</p>
+        </div>
+      ) : (
+        <div class="grid gap-8">
+          {posts.map((post) => <PostCard post={post} />)}
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

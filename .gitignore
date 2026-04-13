@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+dist/
+.astro/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Sanity
+studio/.sanity/
+
+# Editor
+.DS_Store
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

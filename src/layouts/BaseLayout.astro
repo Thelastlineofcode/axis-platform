@@ -1,0 +1,57 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- OG -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body class="bg-axis-black text-white min-h-screen">
+    <nav class="fixed top-0 w-full z-50 bg-axis-black/90 backdrop-blur border-b border-axis-indigo-mid/30">
+      <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="font-mono text-axis-gold font-bold tracking-widest text-sm uppercase">AXIS</a>
+        <div class="flex gap-6 text-sm text-gray-400">
+          <a href="/" class="hover:text-axis-gold transition-colors">Home</a>
+          <a href="/about" class="hover:text-axis-gold transition-colors">About</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="pt-16">
+      <slot />
+    </div>
+
+    <footer class="bg-axis-black border-t border-axis-indigo-mid/30 py-12 px-6 text-center">
+      <p class="font-mono text-axis-gold text-xs tracking-widest uppercase mb-2">AXIS</p>
+      <p class="text-gray-600 text-sm">Sacred Intelligence Platform · Houston, TX</p>
+      <p class="text-gray-700 text-xs mt-4">&copy; {new Date().getFullYear()} Travone Butler. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
