@@ -10,7 +10,8 @@
 2. GitHub Issues is the truth bus. All work links to a directive issue.
 3. No agent touches `studio/sanity.config.ts` or `.env` without a directive issue tagged `infrastructure`.
 4. Sovereignty: no third-party ephemeris APIs. Transit data comes from Levite `astro-calc-api` only.
-5. Report completions on directive issue using standard format:
+5. **All copy and content must follow `VOICE.md`.** Plain English first. No jargon without an immediate plain-English translation. This applies to UI labels, post titles, intros, CTAs, and meta descriptions.
+6. Report completions on directive issue using standard format:
 ```
 AGENT:  {name}
 TASK:   {task}
@@ -24,10 +25,11 @@ NEXT:   {handoff}
 |---|---|---|
 | Scooter | `src/`, `astro.config.mjs`, `package.json`, `studio/schemas/` | `.env`, `vercel.json` secrets |
 | JuneBug | `src/content/`, Sanity documents | `studio/schemas/` (propose changes via issue) |
-| Ann | Issue board, acceptance criteria | Code files directly |
+| Ann | Issue board, acceptance criteria, `VOICE.md` | Code files directly |
 
 ## Context Files
 - `astro.config.mjs` — site config
 - `studio/sanity.config.ts` — CMS config
 - `src/content/config.ts` — content collections schema
 - `AGENTS.md` — this file
+- `VOICE.md` — content and copy voice standard (read before writing anything)
