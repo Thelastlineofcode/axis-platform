@@ -1,21 +1,109 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { useSanityClient } from '@sanity/astro';
 
-export async function getStaticPaths() {
-  // TODO: Replace with Sanity GROQ fetch once configured
-  // const client = useSanityClient();
-  // const posts = await client.fetch(`*[_type == "post"]{ slug }`);
-  // return posts.map((p: any) => ({ params: { slug: p.slug.current } }));
-  return [];
-}
+export const prerender = false; // SSR — fetch fresh from Sanity on each request
 
 const { slug } = Astro.params;
-// TODO: Fetch post by slug from Sanity
+
+const client = useSanityClient();
+
+const post = await client.fetch(
+  `*[_type == "post" && slug.current == $slug][0]{
+    title,
+    description,
+    publishedAt,
+    updatedAt,
+    planet,
+    nakshatra,
+    pillar,
+    isPaid,
+    tags,
+    degree,
+    ayanamsa,
+    subLord,
+    dasha,
+    body
+  }`,
+  { slug }
+);
+
+if (!post) {
+  return Astro.redirect('/blog', 302);
+}
+
+const pillarLabel: Record<string, string> = {
+  MUNDANE_MYSTIC: 'Mundane Mystic',
+  THE_AXIS: 'The Axis',
+  TIMING_REPORT: 'Timing Report',
+};
 ---
 
-<BaseLayout title="Post" description="">
+<BaseLayout title={post.title} description={post.description ?? ''}>
   <article class="max-w-3xl mx-auto px-6 py-20">
-    <p class="text-axis-gold font-mono text-sm">Post: {slug}</p>
-    <p class="text-gray-500 mt-4">Content loading once Sanity is wired.</p>
+
+    <!-- Header -->
+    <header class="mb-12">
+      <div class="flex gap-3 items-center mb-4">
+        <span class="font-mono text-xs text-axis-gold tracking-widest uppercase">
+          {pillarLabel[post.pillar] ?? post.pillar}
+        </span>
+        {post.isPaid && (
+          <span class="font-mono text-xs bg-axis-gold/20 text-axis-gold px-2 py-0.5 rounded">Members</span>
+        )}
+      </div>
+
+      <h1 class="font-serif text-4xl md:text-5xl text-white mb-4 leading-tight">{post.title}</h1>
+
+      {post.description && (
+        <p class="text-gray-400 text-lg mb-6 leading-relaxed">{post.description}</p>
+      )}
+
+      <!-- Astrological metadata bar -->
+      <div class="flex flex-wrap gap-4 text-xs font-mono text-gray-600 border-t border-axis-indigo-mid/40 pt-4">
+        <time datetime={post.publishedAt}>
+          {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        {post.planet && <span>· {post.planet}</span>}
+        {post.nakshatra && <span>· {post.nakshatra}</span>}
+        {post.degree && <span>· {post.degree}</span>}
+        {post.dasha && <span>· Dasha: {post.dasha}</span>}
+        {post.subLord && <span>· Sub-Lord: {post.subLord}</span>}
+        <span>· Ayanamsa: {post.ayanamsa ?? 'Lahiri'}</span>
+      </div>
+
+      {post.tags && post.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-4">
+          {post.tags.map((tag: string) => (
+            <span class="font-mono text-xs bg-axis-indigo-mid/30 text-gray-400 px-2 py-0.5 rounded">{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <!-- Body -->
+    <div class="prose prose-invert prose-gold max-w-none">
+      {post.body ? (
+        // Render raw text blocks from Sanity PortableText
+        // TODO: swap for @portabletext/astro once installed
+        post.body
+          .filter((block: any) => block._type === 'block')
+          .map((block: any) => (
+            <p class="text-gray-300 leading-relaxed mb-4">
+              {block.children?.map((span: any) => span.text).join('')}
+            </p>
+          ))
+      ) : (
+        <p class="text-gray-600 font-mono text-sm">Content coming soon.</p>
+      )}
+    </div>
+
+    <!-- Footer nav -->
+    <footer class="mt-20 pt-8 border-t border-axis-indigo-mid/40">
+      <a href="/blog" class="font-mono text-xs text-axis-gold tracking-widest uppercase hover:text-white transition-colors">
+        ← Back to all dispatches
+      </a>
+    </footer>
+
   </article>
 </BaseLayout>
