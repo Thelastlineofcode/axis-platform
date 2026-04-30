@@ -3,13 +3,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import TransitWidget from '../components/TransitWidget.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
 
-// TODO: Replace with live Sanity GROQ query once projectId is configured
-// import { useSanityClient } from '@sanity/astro';
-// const client = useSanityClient();
-// const posts = await client.fetch(`*[_type == "post"] | order(publishedAt desc)[0..5]`);
-
-const posts: any[] = []; // placeholder until Sanity is wired
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 5)
+  .map((entry) => ({
+    title: entry.data.title,
+    slug: entry.slug,
+    publishedAt: entry.data.publishedAt.toISOString(),
+    description: entry.data.description,
+    planet: entry.data.planet,
+    nakshatra: entry.data.nakshatra,
+    pillar: entry.data.pillar,
+    isPaid: entry.data.isPaid,
+  }));
 ---
 
 <BaseLayout
@@ -34,8 +42,8 @@ const posts: any[] = []; // placeholder until Sanity is wired
   <!-- Transit Widget -->
   <section class="bg-axis-indigo py-12 px-6">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-axis-gold font-mono text-xs tracking-widest uppercase mb-1">Where the Planets Are Today</h2>
-      <p class="text-gray-500 text-xs mb-4">Positions calculated using the actual sky — not the simplified version most apps use.</p>
+      <h2 class="text-axis-gold font-mono text-xs tracking-widest uppercase mb-1">Transit Preview</h2>
+      <p class="text-gray-500 text-xs mb-4">This section is a design preview until live transit data is wired in.</p>
       <TransitWidget />
     </div>
   </section>
@@ -48,7 +56,7 @@ const posts: any[] = []; // placeholder until Sanity is wired
 
       {posts.length === 0 ? (
         <div class="border border-axis-indigo-mid rounded p-8 text-center">
-          <p class="text-gray-600 font-mono text-sm">First issue dropping soon. Subscribe below so you don&apos;t miss it.</p>
+          <p class="text-gray-600 font-mono text-sm">No posts are published yet. Subscribe below to hear when the first issue goes live.</p>
         </div>
       ) : (
         <div class="grid gap-8">

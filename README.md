@@ -7,10 +7,11 @@ AXIS is a sidereal intelligence platform combining Lahiri ayanamsa precision, KP
 ## Stack
 
 - **Site:** [Astro.js](https://astro.build) — static, SEO-native, MDX
-- **CMS:** [Sanity.io](https://sanity.io) — structured content with astrological metadata schemas
-- **Newsletter:** [Beehiiv](https://beehiiv.com) — sovereign audience, API-accessible
-- **Deploy:** Vercel (free tier)
-- **Ephemeris:** Levite `astro-calc-api` (sovereign, Swiss Ephemeris, no third-party app)
+- **Content source (launch):** local Astro content collection
+- **CMS (later):** Sanity schemas are present, but not part of the current site build path yet
+- **Newsletter:** provider still to be wired; current signup UI is a launch placeholder
+- **Deploy:** Vercel
+- **Ephemeris:** Levite integration planned; current transit section is a non-live design preview until the bridge is wired
 
 ## Content Pillars
 
@@ -29,13 +30,42 @@ npm run dev
 
 # Build
 npm run build
-
-# Sanity Studio
-cd studio && npm run dev
 ```
 
-## Agent Context
+## Launch reality
+AXIS can go live now as a static publishing surface with local content.
 
-See `AGENTS.md` for agent brief and orchestration rules.
-Parent directive: [ANN-Mesh #95](https://github.com/Thelastlineofcode/ANN-Mesh/issues/95)
-Orchestration: [ANN-Mesh #53](https://github.com/Thelastlineofcode/ANN-Mesh/issues/53)
+What is live-ready after the current cleanup:
+- homepage
+- about page
+- static blog route from `src/content/blog`
+- Vercel deployment path
+
+What is not wired yet:
+- Sanity Studio as the active publishing backend
+- live Levite transit data
+- real newsletter provider submission flow
+
+## Deploy automation
+
+### Main deploy path
+- pushes to `main` build through `.github/workflows/deploy.yml`
+- Vercel remains the active deploy target for AXIS
+
+### Scheduled deploy hooks
+Two scheduled workflows are available for repo-side automation:
+- `.github/workflows/annual-rebuild.yml`
+- `.github/workflows/weekly-deploy.yml`
+
+Required GitHub secrets:
+- `VERCEL_DEPLOY_HOOK_ANNUAL`
+- `VERCEL_DEPLOY_HOOK_WEEKLY`
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID`
+
+Use deploy hook URLs from the Vercel project settings when wiring the scheduled jobs.
+
+## Working rules
+
+See `AGENTS.md` for local working rules and `VOICE.md` for content standards.

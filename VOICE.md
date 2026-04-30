@@ -2,7 +2,7 @@
 
 > Last updated: 2026-04-15
 > Directive: axis-platform issue #1
-> Owner: Ann (COO Layer) — enforced by JuneBug on all content, Scooter on all UI copy
+> Owner: AXIS editorial standard
 
 ---
 
@@ -78,8 +78,15 @@ The rule in articles: **earn the jargon**. Get the reader invested in the story 
 
 ---
 
-## Agent Responsibilities
+## Application
 
-- **JuneBug** — applies this standard to all post drafts, Sanity content documents, and newsletter copy. Flag any post title or intro that fails the "first-time reader" test before publishing.
-- **Scooter** — applies this standard to all UI copy: labels, headings, empty states, button text, meta descriptions.
-- **Ann** — gates acceptance. No content or UI copy merges without passing this standard.
+Use this standard for:
+- post drafts
+- Sanity content documents
+- newsletter copy
+- UI labels
+- headings
+- button text
+- meta descriptions
+
+No content or UI copy should merge if it fails the first-time-reader standard described above.

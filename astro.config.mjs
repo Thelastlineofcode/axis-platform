@@ -1,20 +1,10 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
-import sanity from '@sanity/astro';
+
+const site = process.env.PUBLIC_SITE_URL || 'https://axis.yourdomain.com';
 
 export default defineConfig({
-  site: 'https://axis.thelastlineofcode.com', // update to final domain
-  integrations: [
-    mdx(),
-    sitemap(),
-    tailwind(),
-    sanity({
-      projectId: process.env.SANITY_PROJECT_ID,
-      dataset: process.env.SANITY_DATASET ?? 'production',
-      useCdn: true,
-      // studioBasePath: '/studio', // uncomment to embed studio
-    }),
-  ],
+  site,
+  integrations: [mdx(), tailwind()],
 });

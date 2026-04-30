@@ -1,25 +1,23 @@
 ---
 /**
  * TransitWidget.astro
- * Displays today's planetary positions.
  *
- * TODO: Wire to Levite astro-calc-api endpoint once AXIS-Levite bridge is spec'd.
- * Levite owns all ephemeris computation — no third-party astrology apps.
- * Endpoint target: GET /api/transits/today?ayanamsa=lahiri
+ * Current status:
+ * - UI scaffold only
+ * - data below is placeholder content
+ * - Levite-backed ephemeris integration is planned but not wired yet
  *
- * Placeholder data below is for scaffold/design purposes only.
+ * When implemented, this should fetch real transit data from the Levite bridge
+ * instead of implying live planetary calculations today.
  */
 
 const placeholderTransits = [
-  { planet: 'Sun ☉',     sign: 'Pisces',      degree: "29°42'", note: 'Endings, reflection, letting go' },
-  { planet: 'Moon ☽',    sign: 'Scorpio',     degree: "14°18'", note: 'Emotional intensity, hidden truths' },
-  { planet: 'Mars ♂',    sign: 'Capricorn',   degree: "8°55'",  note: 'Disciplined action, long-game moves' },
-  { planet: 'Mercury ☿', sign: 'Aries',       degree: "3°12'",  note: 'Direct talk, fast decisions' },
-  { planet: 'Jupiter ♃', sign: 'Taurus',      degree: "21°34'", note: 'Slow growth, material building' },
-  { planet: 'Venus ♀',   sign: 'Pisces',      degree: "17°08'", note: 'Compassion, dissolving boundaries' },
-  { planet: 'Saturn ♄',  sign: 'Aquarius',    degree: "16°22'", note: 'Systems, accountability, the long view' },
-  { planet: 'Rahu ☊',    sign: 'Pisces',      degree: "11°45'", note: 'Where the world is being pulled forward' },
-  { planet: 'Ketu ☋',    sign: 'Virgo',       degree: "11°45'", note: 'What the world is releasing' },
+  { planet: 'Sun ☉',     sign: 'Sample sign', degree: '—', note: 'Layout preview only' },
+  { planet: 'Moon ☽',    sign: 'Sample sign', degree: '—', note: 'Live transit feed not connected yet' },
+  { planet: 'Mars ♂',    sign: 'Sample sign', degree: '—', note: 'Levite bridge still pending' },
+  { planet: 'Mercury ☿', sign: 'Sample sign', degree: '—', note: 'Use this component as a UI scaffold' },
+  { planet: 'Jupiter ♃', sign: 'Sample sign', degree: '—', note: 'Do not treat values here as real sky data' },
+  { planet: 'Venus ♀',   sign: 'Sample sign', degree: '—', note: 'Presentation only' },
 ];
 ---
 
@@ -36,5 +34,5 @@ const placeholderTransits = [
   ))}
 </div>
 <p class="text-gray-700 font-mono text-xs mt-3 text-right">
-  Calculated using actual sky positions · Levite API wiring pending
+  Placeholder transit data for layout preview · live Levite ephemeris wiring still pending
 </p>

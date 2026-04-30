@@ -1,35 +1,40 @@
 # AGENTS.md — AXIS Platform
 
-## Orchestration
-- **Ann** (COO Layer) — orchestrates, reviews, gates
-- **Scooter** — scaffold owner, implementation
-- **JuneBug** — content schema population, post drafts
+## Purpose
+This file defines the local working rules for AXIS contributors and coding agents.
+It should be usable on its own without requiring external issue threads just to understand how to work in this repo.
 
-## Agent Rules
-1. Read ANN-Mesh #72 (ops board) and #53 (orchestration map) before executing.
-2. GitHub Issues is the truth bus. All work links to a directive issue.
-3. No agent touches `studio/sanity.config.ts` or `.env` without a directive issue tagged `infrastructure`.
-4. Sovereignty: no third-party ephemeris APIs. Transit data comes from Levite `astro-calc-api` only.
-5. **All copy and content must follow `VOICE.md`.** Plain English first. No jargon without an immediate plain-English translation. This applies to UI labels, post titles, intros, CTAs, and meta descriptions.
-6. Report completions on directive issue using standard format:
-```
-AGENT:  {name}
+## Working Roles
+- **Product / editorial gate** — reviews direction, voice, acceptance
+- **Implementation** — site scaffolding, Astro wiring, schema wiring
+- **Content operations** — post drafting, metadata entry, CMS population
+
+## Repo Rules
+1. GitHub issues and PRs are the working record for decisions and changes.
+2. `VOICE.md` is the copy and content source of truth.
+3. No one should change `.env` shape, deployment settings, or Sanity config casually; treat those as infrastructure changes and document them clearly.
+4. Do not imply live astrology calculations unless the Levite bridge is actually wired.
+5. No third-party ephemeris apps or hidden external astrology providers.
+6. Prefer repo-local explanation over off-repo orchestration lore.
+
+## Change Reporting Format
+```text
 TASK:   {task}
 STATUS: done | blocked | in-progress
 OUTPUT: PR # / commit SHA / URL
 NEXT:   {handoff}
 ```
 
-## File Ownership
-| Agent | Owns | Do Not Touch |
-|---|---|---|
-| Scooter | `src/`, `astro.config.mjs`, `package.json`, `studio/schemas/` | `.env`, `vercel.json` secrets |
-| JuneBug | `src/content/`, Sanity documents | `studio/schemas/` (propose changes via issue) |
-| Ann | Issue board, acceptance criteria, `VOICE.md` | Code files directly |
+## File Responsibility
+| Area | Primary files |
+|---|---|
+| Site shell | `src/`, `astro.config.mjs`, `package.json` |
+| CMS | `studio/schemas/`, `studio/sanity.config.ts` |
+| Content standards | `VOICE.md` |
+| Deploy config | `vercel.json` |
 
 ## Context Files
 - `astro.config.mjs` — site config
 - `studio/sanity.config.ts` — CMS config
-- `src/content/config.ts` — content collections schema
-- `AGENTS.md` — this file
-- `VOICE.md` — content and copy voice standard (read before writing anything)
+- `AGENTS.md` — local working rules
+- `VOICE.md` — copy and content standard
