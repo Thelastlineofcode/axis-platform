@@ -1,0 +1,31 @@
+name: Annual Transit Rebuild
+
+on:
+  schedule:
+    - cron: '0 6 1 1 *'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual annual rebuild trigger'
+        required: false
+        default: 'Manual annual rebuild'
+
+jobs:
+  trigger:
+    name: Trigger annual deploy hook
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate annual deploy hook secret
+        run: |
+          if [ -z "${{ secrets.VERCEL_DEPLOY_HOOK_ANNUAL }}" ]; then
+            echo "Missing VERCEL_DEPLOY_HOOK_ANNUAL"
+            exit 1
+          fi
+
+      - name: Trigger annual rebuild deploy
+        run: curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_ANNUAL }}"
+
+      - name: Log trigger context
+        run: |
+          echo "Annual rebuild trigger sent at $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          echo "Reason: ${{ github.event.inputs.reason || 'scheduled annual rebuild' }}"

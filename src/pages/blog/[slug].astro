@@ -1,21 +1,24 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
 
 export async function getStaticPaths() {
-  // TODO: Replace with Sanity GROQ fetch once configured
-  // const client = useSanityClient();
-  // const posts = await client.fetch(`*[_type == "post"]{ slug }`);
-  // return posts.map((p: any) => ({ params: { slug: p.slug.current } }));
-  return [];
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
 }
 
-const { slug } = Astro.params;
-// TODO: Fetch post by slug from Sanity
+const { post } = Astro.props;
+const { Content } = await render(post);
 ---
 
-<BaseLayout title="Post" description="">
-  <article class="max-w-3xl mx-auto px-6 py-20">
-    <p class="text-axis-gold font-mono text-sm">Post: {slug}</p>
-    <p class="text-gray-500 mt-4">Content loading once Sanity is wired.</p>
-  </article>
-</BaseLayout>
+<PostLayout
+  title={post.data.title}
+  description={post.data.description}
+  publishedAt={post.data.publishedAt}
+  planet={post.data.planet}
+  nakshatra={post.data.nakshatra}
+  pillar={post.data.pillar}
+  isPaid={post.data.isPaid}
+>
+  <Content />
+</PostLayout>

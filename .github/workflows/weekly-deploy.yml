@@ -1,0 +1,31 @@
+name: Weekly Content Deploy
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual weekly deploy trigger'
+        required: false
+        default: 'Manual weekly deploy'
+
+jobs:
+  trigger:
+    name: Trigger weekly deploy hook
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate weekly deploy hook secret
+        run: |
+          if [ -z "${{ secrets.VERCEL_DEPLOY_HOOK_WEEKLY }}" ]; then
+            echo "Missing VERCEL_DEPLOY_HOOK_WEEKLY"
+            exit 1
+          fi
+
+      - name: Trigger weekly deploy
+        run: curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_WEEKLY }}"
+
+      - name: Log trigger context
+        run: |
+          echo "Weekly deploy trigger sent at $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          echo "Reason: ${{ github.event.inputs.reason || 'scheduled weekly deploy' }}"
